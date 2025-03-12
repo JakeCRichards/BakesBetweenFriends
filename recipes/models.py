@@ -13,6 +13,7 @@ class Baker(models.Model):
     bio = models.TextField()
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
     user_type = models.CharField(max_length=50, choices=UserTypes.choices, default=UserTypes.BEGINNER)
+    
 
     def __str__(self):
         return f"Baker {self.user.username}"
