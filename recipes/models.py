@@ -11,7 +11,7 @@ class Baker(models.Model):
         HOPELESS = 'hopeless', 'Hopeless Baker'
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    profile_pic = models.ImageField(upload_to='static/assets/images/profile_pics', blank=True)
     user_type = models.CharField(max_length=50, choices=UserTypes.choices, default=UserTypes.BEGINNER)
     
 
@@ -22,7 +22,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=100)
     baker = models.ForeignKey(Baker, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=200, unique=True,)
-    image = models.ImageField(upload_to='recipe_images')
+    image = models.ImageField(upload_to='static/assets/images/recipe_images')
     ingredients = models.TextField()
     instructions = models.TextField()
     time_required = models.CharField(max_length=50)
