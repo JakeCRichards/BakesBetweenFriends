@@ -8,7 +8,7 @@ from .models import Recipe, Comment
 class RecipeListView(generic.ListView):
     queryset = Recipe.objects.filter(is_published=True)
     template_name = 'recipes/recipe_list.html'
-    paginate_by = 5
+    paginate_by = 6
 
 class RecipeCreateView(CreateView):
     model = Recipe

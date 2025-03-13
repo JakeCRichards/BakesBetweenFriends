@@ -1,22 +1,51 @@
+{% extends "base.html" %}
 {% load static %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {{ object_list }}
-    {% for recipe in object_list %}
-        <h1>{{ recipe }}</h1>
-        <p>{{ recipe.image }}</p>
-        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
-        <p>{{ recipe.ingredients | safe}}</p>
-        <p>{{ recipe.instructions | safe}}</p>
-        <p>{{ recipe.created_on }}</p>
-        <p>{{ recipe.baker }}</p>
-    {% endfor %}
-</body>
-</html>
+<div class="container mt-4">
+    <div class="row">
+        {% for recipe in object_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">By {{ recipe.baker }}</h6>
+                    <p class="card-text">{{ recipe.ingredients | safe }}</p>
+                    <p class="card-text">{{ recipe.instructions | safe }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Posted on {{ recipe.created_on }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}
