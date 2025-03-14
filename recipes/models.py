@@ -31,6 +31,7 @@ class Recipe(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     categories = models.ManyToManyField('Category', related_name='tags')
+    excerpt = models.TextField(default='')
 
     def __str__(self):
         return f"{self.title} by {self.baker.user.username}"

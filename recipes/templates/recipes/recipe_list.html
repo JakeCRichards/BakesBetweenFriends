@@ -7,12 +7,12 @@
         {% for recipe in object_list %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}">
-                <div class="card-body">
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                <div class="card-body recipe-card">
                     <h5 class="card-title">{{ recipe.title }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">By {{ recipe.baker }}</h6>
-                    <p class="card-text">{{ recipe.ingredients | safe }}</p>
-                    <p class="card-text">{{ recipe.instructions | safe }}</p>
+                    <p class="card-text">Time required: {{ recipe.time_required | safe }}</p>
+                    <p class="card-text">{{ recipe.excerpt | safe }}</p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Posted on {{ recipe.created_on }}</small>
