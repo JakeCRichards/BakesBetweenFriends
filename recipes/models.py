@@ -4,6 +4,7 @@ from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
+
 class Baker(models.Model):
     class UserTypes(models.TextChoices):
         PROFESSIONAL = 'professional', 'Professional'
@@ -13,11 +14,12 @@ class Baker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
     profile_pic = CloudinaryField('image', default='placeholder')
-    user_type = models.CharField(max_length=50, choices=UserTypes.choices, default=UserTypes.BEGINNER)
-    
+    user_type = models.CharField(
+        max_length=50, choices=UserTypes.choices, default=UserTypes.BEGINNER)
 
     def __str__(self):
         return f"Baker {self.user.username}"
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
@@ -35,7 +37,7 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.baker.user.username}"
-    
+
     class Meta:
         ordering = ['-created_on']
 
@@ -52,7 +54,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
         ordering = ['tag_name']
-    
+
     def __str__(self):
         return self.tag_name
 
@@ -66,18 +68,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.comment} by {self.baker.user.username}"
-    
+
     class Meta:
         ordering = ['created_on']
 
 
 class Like(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='likes')
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='likes')
     baker = models.ForeignKey(Baker, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Baker {self.baker.user.username} liked {self.recipe.title}"
-    
+
     class Meta:
         ordering = ['created_on']
