@@ -61,3 +61,9 @@ body {
 .recipe-card-button:hover {
     background-color: #e5533d;
 }
+
+.recipe-image {
+    width: 50%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}

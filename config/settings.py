@@ -47,13 +47,16 @@ INSTALLED_APPS = [
     # 'allauth',
     # 'allauth.account',
     # 'allauth.socialaccount',
-    # 'crispy_forms',
-    # 'crispy_bootstrap5',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django_summernote',
     'cloudinary',
     'landing',
     'recipes',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -100,6 +103,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.codeinstitute-ide.net/",
+    "https://*.herokuapp.com"
+]
 
 
 # Password validation
