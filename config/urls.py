@@ -22,6 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("accounts/", include("allauth.urls")),
     path('', home, name='home'),
     path('recipes/', include('recipes.urls', namespace='recipes')),
     path('summernote/', include('django_summernote.urls')),
