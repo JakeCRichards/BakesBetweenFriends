@@ -1,9 +1,33 @@
-/* General styles for the homepage */
+/* Google fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Macondo&display=swap');
+
+/* CSS Variables */
+:root {
+    --primary-font: "Inter", sans-serif;
+    --primary-color: #3a2620; /* dark brown */
+    --secondary-color: #aa9581; /* light brown */
+    --highlight-color: #416a8e; /* blue */
+    --highlight-color-light: #7a9fc2; /* light blue */
+}
 body {
-    font-family: 'Arial, sans-serif';
-    background-color: #f8f8f8;
+    
+    background-color: #f5e0b2;
     margin: 0;
     padding: 0;
+}
+
+.logo {
+    width: 50px;
+}
+
+/* Navigation styles */
+.nav {
+    background-color: #f5e0b2;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 .container {
