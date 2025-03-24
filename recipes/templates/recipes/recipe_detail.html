@@ -42,8 +42,78 @@
             </div>
         </div>
     </div>
+    <!-- Displaying count of comments -->
+  <div class="row">
+    <div class="col-12">
+      <strong class="text-secondary">
+        <i class="far fa-comments"></i> {{ comment_count }}
+        <i class="far fa-thumbs-up"></i> {{ recipe.likes.count }}
+      </strong>
+    </div>
+    <div class="col-12">
+      <hr>
+    </div>
+    <button id="likeButton" class="btn btn-primary">Like this recipe <i class="far fa-thumbs-up"></i></button>
+  </div>
+  <!-- Displaying Comments -->
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <h3>Comments:</h3>
+      <div class="card-body">
+        <!-- We want a for loop inside the empty control tags
+          to iterate through each comment in comments -->
+        {% for comment in comments %}
+        <div class="p-2 comments
+          {% if not comment.approved and comment.baker == request.user.baker %}
+          text-muted{% elif not comment.approved %} d-none{% endif %}">
+          <p class="fw-bold">
+            {{ comment.baker }}
+            <span class="fw-normal">
+              {{ comment.created_on }}
+            </span> wrote:
+          </p>
+          <div id="comment{{ comment.id }}">
+            {{ comment.comment | linebreaks }}
+          </div>
+          {% if not comment.approved and comment.baker == request.user.baker %}
+          <p class="approval">
+            This comment is awaiting approval
+          </p>
+          {% endif %}
+          {% if user.is_authenticated and comment.baker == request.user.baker %}
+        <button class="btn btn-edit"
+            comment_id="{{ comment.id }}">Edit</button>
+        {% endif %}
+        </div>
+        {% endfor %}
+        <!-- Our for loop ends here -->
+      </div>
+    </div>
+    <!-- Creating New Comments -->
+    <div class="col-md-4 card mb-4 mt-3">
+        <div class="card-body">
+          {% if user.is_authenticated %}
+          <h3>Leave a comment:</h3>
+          <p>Posting as: {{ request.user.baker }}</p>
+          <form id="commentForm" method="post"
+            style="margin-top: 1.3em;">
+            {{ comment_form | crispy }}
+            {% csrf_token %}
+            <button id="submitButton" type="submit"
+              class="btn btn-signup btn-lg">Submit</button>
+          </form>
+          {% else %}
+          <p><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>
+          {% endif %}
+        </div>
+      </div>
+  </div>
 </div>
 
 
 
 {% endblock content %}
+
+{% block extras %}
+<script src="{% static 'js/comments.js' %}"></script>
+{% endblock %}

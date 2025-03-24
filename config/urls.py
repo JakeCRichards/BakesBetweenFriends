@@ -23,7 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path('', home, name='home'),
-    path('recipes/', include('recipes.urls', namespace='recipes')),
+    path('', include('recipes.urls')),
+    # path('recipes/', include('recipes.urls', namespace='recipes')),
     path('summernote/', include('django_summernote.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,86 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<div class="container-fluid">
+    <!-- Header Image Section -->
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'images/header-placeholder.jpg' %}" class="img-fluid w-100" alt="Baking Header Image">
+        </div>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <h1>Welcome to Bakes Between Friends</h1>
+            <p class="lead">Discover, share, and enjoy the best baking recipes from our community.</p>
+        </div>
+    </div>
+
+    <!-- Featured Recipes Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="text-center">Featured Recipes</h2>
+        </div>
+        {% for recipe in featured_recipes %}
+        <div class="col-md-4 mt-3">
+            <div class="card">
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Mental Health Benefits Section -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>The Benefits of Cooking for Mental Health</h2>
+            <p class="lead">Cooking is not just about food; it's about mindfulness, creativity, and joy. Here are some ways baking can improve your mental health:</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4>Stress Relief</h4>
+            <p>Engaging in baking can help reduce stress and provide a sense of calm.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4>Boosts Creativity</h4>
+            <p>Experimenting with recipes allows you to express your creativity in a fun and rewarding way.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4>Sense of Accomplishment</h4>
+            <p>Completing a recipe and sharing it with others can boost your confidence and happiness.</p>
+        </div>
+    </div>
+
+    <!-- Recipe Sharing Benefits Section -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>Why Sharing Recipes Between Friends is Amazing</h2>
+            <p class="lead">Sharing recipes is more than just exchanging instructions; it's about building connections and creating memories.</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Strengthens Friendships</h4>
+            <p>Sharing recipes fosters a sense of community and strengthens bonds with friends and family.</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Encourages Collaboration</h4>
+            <p>Collaborating on recipes and trying each other's creations can be a fun and enriching experience.</p>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="row mt-5 text-center">
+        <div class="col-12">
+            <h2>Join Our Community</h2>
+            <p>Have a recipe to share? Sign up and contribute your favorite bakes today!</p>
+            <a href="{% url 'account_signup' %}" class="btn btn-success">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

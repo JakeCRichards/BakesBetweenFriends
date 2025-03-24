@@ -33,7 +33,7 @@ class Recipe(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     categories = models.ManyToManyField('Category', related_name='tags')
-    excerpt = models.TextField(default='')
+    excerpt = models.TextField(default='', verbose_name='blurb')
 
     def __str__(self):
         return f"{self.title} by {self.baker.user.username}"
@@ -60,8 +60,10 @@ class Category(models.Model):
 
 
 class Comment(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    baker = models.ForeignKey(Baker, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='comments')
+    baker = models.ForeignKey(
+        Baker, on_delete=models.CASCADE, related_name='comments')
     comment = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
