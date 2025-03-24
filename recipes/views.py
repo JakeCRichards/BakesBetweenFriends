@@ -150,16 +150,14 @@ def comment_delete(request, slug, comment_id):
     Returns:
         HttpResponseRedirect: Redirects to the recipe detail page.
     """
-    queryset = Recipe.objects.filter(status=1)
-    recipe = get_object_or_404(queryset, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_id)
-    if comment.baker == request.user.baker:
-        comment.approved = False
+    if comment.baker == request.user.baker or request.user.is_superuser:
         comment.delete()
-        messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
+        messages.add_message(request, messages.SUCCESS, "Comment Deleted!")
     else:
-        messages.add_message(request, messages.ERROR, 'Error deleting comment!')
-    return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+        messages.add_message(request, messages.ERROR, "Error deleting comment!")
+    return HttpResponseRedirect(reverse("recipes:recipe_detail", args=[slug]))
+
 
 
 def index(request):
