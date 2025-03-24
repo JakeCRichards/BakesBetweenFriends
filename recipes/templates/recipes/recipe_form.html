@@ -10,10 +10,14 @@
             <p>Fill in the form below to add a new recipe</p>
 
             <div class="recipe-form mt-4">
+                {% if user.is_authenticated %}
                 <form method="post" enctype="multipart/form-data">{% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Submit Recipe">
                 </form>
+                {% else %}
+          <p><a href="{% url 'account_login' %}">Log in</a> to create a recipe</p>
+          {% endif %}
             </div>
         </div>
     </div>
