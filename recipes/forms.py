@@ -1,13 +1,14 @@
 from .models import Recipe, Comment
 from django import forms
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django_summernote.widgets import SummernoteWidget
 from cloudinary.forms import CloudinaryFileField
 
 
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'image', 'ingredients', 'instructions', 'time_required', 'categories', 'excerpt']
+        fields = ['title', 'image', 'ingredients', 'instructions',
+                  'time_required', 'categories', 'excerpt']
         widgets = {
             'ingredients': SummernoteWidget(),
             'instructions': SummernoteWidget(),
@@ -22,7 +23,7 @@ class RecipeForm(forms.ModelForm):
             'categories': 'Categories (Select all that apply)',
             'excerpt': 'Blurb (Short description of your recipe)',
         }
-        
+
 
 class CommentForm(forms.ModelForm):
     class Meta:

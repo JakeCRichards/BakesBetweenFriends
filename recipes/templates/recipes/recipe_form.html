@@ -10,7 +10,7 @@
             <p>Fill in the form below to add a new recipe</p>
 
             <div class="recipe-form mt-4">
-                <form method="post">{% csrf_token %}
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Submit Recipe">
                 </form>

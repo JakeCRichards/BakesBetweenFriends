@@ -17,10 +17,11 @@ class RecipeListView(generic.ListView):
     paginate_by = 6
 
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(generic.CreateView):
     model = Recipe
     template_name = 'recipes/recipe_form.html'
     form_class = RecipeForm
+    success_url = '/'
 
     def form_valid(self, form):
         form.instance.baker = self.request.user.baker
@@ -32,7 +33,7 @@ def recipe_detail(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
     comments = recipe.comments.all().order_by("-created_on")
     comment_count = recipe.comments.filter(approved=True).count()
-    
+
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -45,14 +46,14 @@ def recipe_detail(request, slug):
                 'Comment submitted and awaiting approval'
                 )
     comment_form = CommentForm()        
-    
-    return render(request, 'recipes/recipe_detail.html', 
-            {
+
+    return render(request, 'recipes/recipe_detail.html', {
                 'recipe': recipe,
                 'comments': comments,
                 'comment_count': comment_count,
                 'comment_form': comment_form,
             })
+
 
 def like(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
