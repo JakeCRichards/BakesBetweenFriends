@@ -32,7 +32,6 @@ class RecipeCreateView(generic.CreateView):
             'Recipe submitted and awaiting approval'
         )
         return super().form_valid(form)
-       
 
 
 def recipe_detail(request, slug):
