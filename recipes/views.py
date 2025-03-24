@@ -95,40 +95,47 @@ def like(request, slug):
         return HttpResponseBadRequest("Invalid request method.")
 
 
-
 def comment_edit(request, slug, comment_id):
-    """
-    View to edit a comment associated with a recipe.
-
-    Args:
-        request: The HTTP request object.
-        slug: The slug of the recipe.
-        comment_id: The ID of the comment to be edited.
-
-    Returns:
-        HttpResponseRedirect: Redirects to the recipe detail page.
-    """
-    recipe = get_object_or_404(Recipe, slug=slug)
+    #  view to edit comments
+    queryset = Recipe.objects.filter(is_published=1)
+    recipe = get_object_or_404(queryset, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_id)
-
-    # Ensure the comment belongs to the logged-in user
-    if comment.baker != request.user.baker:
-        messages.add_message(request, messages.ERROR, 'You are not authorized to edit this comment.')
-        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST, instance=comment)
 
-        if comment_form.is_valid():
+        if comment_form.is_valid() and (
+            comment.baker == request.user.baker or request.user.is_superuser
+        ):
             comment = comment_form.save(commit=False)
             comment.recipe = recipe
-            comment.approved = False  # Mark as unapproved after editing
+            comment.approved = False
             comment.save()
-            messages.add_message(request, messages.SUCCESS, 'Comment updated successfully!')
+            messages.success(request, "Comment Updated!")
+            return HttpResponseRedirect(reverse("recipes:recipe_detail", args=[slug]))
         else:
-            messages.add_message(request, messages.ERROR, 'Error updating comment.')
+            messages.error(request, "Error updating comment. Please check your input.")
+            return render(
+                request,
+                "recipes/recipe_detail.html",
+                {
+                    "comment_form": comment_form,
+                    "recipe": recipe,
+                    "comment": comment,
+                },
+            )
 
-    return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+    else:  # Handle GET request implicity (maybe make this explicit?)
+        comment_form = CommentForm(instance=comment)
+        return render(
+            request,
+            "recipes/recipe_detail.html",
+            {
+                "comment_form": comment_form,
+                "recipe": recipe,
+                "comment": comment,
+            },
+        )
 
 
 def comment_delete(request, slug, comment_id):
