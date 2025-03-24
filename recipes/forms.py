@@ -22,15 +22,7 @@ class RecipeForm(forms.ModelForm):
             'categories': 'Categories (Select all that apply)',
             'excerpt': 'Blurb (Short description of your recipe)',
         }
-        help_texts = {
-            'title': 'The name of your recipe',
-            'image': 'A picture of your recipe',
-            'ingredients': 'List all ingredients here',
-            'instructions': 'List all instructions here',
-            'time_required': 'How long does it take to make your recipe?',
-            'categories': 'Select all categories that apply',
-            'excerpt': 'A short description of your recipe',
-        }
+        
 
 class CommentForm(forms.ModelForm):
     class Meta:
