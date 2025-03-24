@@ -9,6 +9,7 @@
     --highlight-color: #416a8e; /* blue */
     --highlight-color-light: #7a9fc2; /* light blue */
 }
+
 body {
     
     background-color: #f5e0b2;
@@ -46,9 +47,6 @@ body {
     transition: transform 0.2s;
 }
 
-.recipe-card:hover {
-    transform: scale(1.05);
-}
 
 .recipe-card img {
     width: 100%;
