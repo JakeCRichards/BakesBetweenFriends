@@ -73,16 +73,27 @@ def recipe_detail(request, slug):
     )
 
 
-
+@login_required
 def like(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
-    recipe.likes += 1
-    recipe.save()
-    messages.add_message(
-                request, messages.SUCCESS,
-                'You have liked this recipe'
-                )
-    return HttpResponseRedirect(recipe.get_absolute_url())
+    if request.method == "POST":
+
+        # Use get_or_create which returns a tuple containing object and bool
+        # (the bool specified whether something was creatd by this request)
+        like, created = Like.objects.get_or_create(
+            recipe=recipe,
+            baker=request.user.baker,
+        )
+        if created:
+            messages.success(request, "You have liked this recipe!")
+        if not created:
+            like.delete()
+            messages.success(request,
+            "You have removed your like from this recipe!")
+        return redirect("recipes:recipe_detail", slug=slug)
+    else:
+        return HttpResponseBadRequest("Invalid request method.")
+
 
 
 def comment_edit(request, slug, comment_id):
