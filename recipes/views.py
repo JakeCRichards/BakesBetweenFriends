@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
-from django.views.generic.edit import *
+
+# from django.views.generic.edit import *
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from .models import Recipe, Comment
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.shortcuts import redirect
+from .models import Recipe, Comment, Like
 from .forms import RecipeForm, CommentForm
 from django.utils.text import slugify
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -35,11 +38,16 @@ class RecipeCreateView(generic.CreateView):
 
 
 def recipe_detail(request, slug):
-    recipe = get_object_or_404(Recipe, slug=slug)
+    if request.user.is_superuser:
+        recipe = get_object_or_404(Recipe, slug=slug)
+    else:
+        recipe = get_object_or_404(Recipe, slug=slug, is_published=1)
+    liked_bakers = [like.baker for like in recipe.likes.all()]
     comments = recipe.comments.all().order_by("-created_on")
     comment_count = recipe.comments.filter(approved=True).count()
+    comment_form = CommentForm()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -48,16 +56,22 @@ def recipe_detail(request, slug):
             comment.save()
             messages.add_message(
                 request, messages.SUCCESS,
-                'Comment submitted and awaiting approval'
-                )
-    comment_form = CommentForm()        
+                "Comment submitted and awaiting approval"
+            )
+            return redirect("recipes:recipe_detail", slug=slug)
 
-    return render(request, 'recipes/recipe_detail.html', {
-                'recipe': recipe,
-                'comments': comments,
-                'comment_count': comment_count,
-                'comment_form': comment_form,
-            })
+    return render(
+        request,
+        "recipes/recipe_detail.html",
+        {
+            "recipe": recipe,
+            "comments": comments,
+            "comment_count": comment_count,
+            "comment_form": comment_form,
+            "liked_bakers": liked_bakers,
+        },
+    )
+
 
 
 def like(request, slug):
