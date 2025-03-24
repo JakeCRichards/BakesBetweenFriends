@@ -26,7 +26,13 @@ class RecipeCreateView(generic.CreateView):
     def form_valid(self, form):
         form.instance.baker = self.request.user.baker
         form.instance.slug = slugify(form.instance.title)
+        # Add a message saying that the recipe has been submitted for approval
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Recipe submitted and awaiting approval'
+        )
         return super().form_valid(form)
+       
 
 
 def recipe_detail(request, slug):
