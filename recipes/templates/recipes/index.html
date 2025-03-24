@@ -1,12 +1,13 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
 {% load static %}
 
-<div class="container-fluid">
+<div class="container">
     <!-- Header Image Section -->
     <div class="row">
         <div class="col-12">
-            <img src="{% static 'assets/images/Bakes Between Friends.jpg' %}" class="img-fluid w-100" alt="Baking Header Image">
+            <img src="{% static 'assets/images/Bakes Between Friends.jpg' %}" class="img-fluid w-100"
+                alt="Baking Header Image">
         </div>
     </div>
 
@@ -17,7 +18,69 @@
             <p class="lead">Discover, share, and enjoy the best baking recipes from our community.</p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-8 text-center">
+            <p>Cooking is more than just preparing food; it's a celebration of creativity, tradition, and togetherness. At Bakes Between Friends, we believe that every recipe tells a story, and every dish is a reflection of the love and care that goes into it. Sharing these recipes allows us to connect with one another and preserve the joy of baking for generations to come.</p>
+            <p>All the recipes on this site are submitted by our wonderful community of bakers. These are tried-and-true creations straight from their own kitchens, filled with personal touches and cherished memories. From family heirloom recipes to modern twists on classic bakes, you'll find a treasure trove of inspiration here.</p>
+            <p>This website was created by Jake, the owner of Jake's Bakes in Cornwall, as a way to bring the community together through the love of baking. Alongside the amazing contributions from our users, you'll also find some special recipes from Jake's own bakery, crafted with the same passion and dedication that has made Jake's Bakes a local favorite. We invite you to explore, bake, and share your own recipes to keep the spirit of baking alive and thriving!</p>
+        </div>
+        <div class="col-4 text-center">
+        <img src="https://res.cloudinary.com/dcoyszltv/image/upload/v1742848823/Jake_s_Bakes_Large_Format_1_ti2n3f.webp" class="img-fluid" alt="Baking Together">
+    </div>
 
+    
+    <!-- Mental Health Benefits Section -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>The Benefits of Cooking for Mental Health</h2>
+            <p class="lead">Cooking is not just about food; it's about mindfulness, creativity, and joy. Here are some
+                ways baking can improve your mental health:</p>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-3 text-center card">
+                <h4>Stress Relief</h4>
+                <p>Engaging in baking can help reduce stress and provide a sense of calm.</p>
+            </div>
+            <div class="col-md-3 text-center card">
+                <h4>Boosts Creativity</h4>
+                <p>Experimenting with recipes allows you to express your creativity in a fun and rewarding way.</p>
+            </div>
+            <div class="col-md-3 text-center card">
+                <h4>Sense of Accomplishment</h4>
+                <p>Completing a recipe and sharing it with others can boost your confidence and happiness.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Recipe Sharing Benefits Section -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>Why Sharing Recipes Between Friends is Amazing</h2>
+            <p class="lead">Sharing recipes is more than just exchanging instructions; it's about building connections
+                and creating memories.</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Strengthens Friendships</h4>
+            <p>Sharing recipes fosters a sense of community and strengthens bonds with friends and family.</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Encourages Collaboration</h4>
+            <p>Collaborating on recipes and trying each other's creations can be a fun and enriching experience.</p>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="row mt-5 text-center">
+        <div class="col-12">
+            <h2>Join Our Community</h2>
+            <p>Have a recipe to share? </p>
+            <p>Want to like or comment on other people's recipes? </p>
+            <p>Sign up and contribute your favourite bakes today!</p>
+            <a href="{% url 'account_signup' %}" class="btn btn-success">Sign Up</a>
+        </div>
+    </div>
+    
     <!-- Featured Recipes Section -->
     <div class="row mt-5">
         <div class="col-12">
@@ -37,50 +100,6 @@
         {% endfor %}
     </div>
 
-    <!-- Mental Health Benefits Section -->
-    <div class="row mt-5">
-        <div class="col-12 text-center">
-            <h2>The Benefits of Cooking for Mental Health</h2>
-            <p class="lead">Cooking is not just about food; it's about mindfulness, creativity, and joy. Here are some ways baking can improve your mental health:</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <h4>Stress Relief</h4>
-            <p>Engaging in baking can help reduce stress and provide a sense of calm.</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <h4>Boosts Creativity</h4>
-            <p>Experimenting with recipes allows you to express your creativity in a fun and rewarding way.</p>
-        </div>
-        <div class="col-md-4 text-center">
-            <h4>Sense of Accomplishment</h4>
-            <p>Completing a recipe and sharing it with others can boost your confidence and happiness.</p>
-        </div>
-    </div>
-
-    <!-- Recipe Sharing Benefits Section -->
-    <div class="row mt-5">
-        <div class="col-12 text-center">
-            <h2>Why Sharing Recipes Between Friends is Amazing</h2>
-            <p class="lead">Sharing recipes is more than just exchanging instructions; it's about building connections and creating memories.</p>
-        </div>
-        <div class="col-md-6">
-            <h4>Strengthens Friendships</h4>
-            <p>Sharing recipes fosters a sense of community and strengthens bonds with friends and family.</p>
-        </div>
-        <div class="col-md-6">
-            <h4>Encourages Collaboration</h4>
-            <p>Collaborating on recipes and trying each other's creations can be a fun and enriching experience.</p>
-        </div>
-    </div>
-
-    <!-- Call-to-Action Section -->
-    <div class="row mt-5 text-center">
-        <div class="col-12">
-            <h2>Join Our Community</h2>
-            <p>Have a recipe to share? Sign up and contribute your favorite bakes today!</p>
-            <a href="{% url 'account_signup' %}" class="btn btn-success">Sign Up</a>
-        </div>
-    </div>
 </div>
 
 {% endblock content %}

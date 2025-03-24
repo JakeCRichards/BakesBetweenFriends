@@ -71,28 +71,39 @@ def like(request, slug):
     return HttpResponseRedirect(recipe.get_absolute_url())
 
 
-def comment_edit(request, slug, pk, comment_id):
-    #  view to edit comments
-    if request.method == "POST":
+def comment_edit(request, slug, comment_id):
+    """
+    View to edit a comment associated with a recipe.
 
-        queryset = Recipe.objects.filter(status=1)
-        recipe = get_object_or_404(queryset, slug=slug)
-        comment = get_object_or_404(Comment, pk=comment_id)
+    Args:
+        request: The HTTP request object.
+        slug: The slug of the recipe.
+        comment_id: The ID of the comment to be edited.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the recipe detail page.
+    """
+    recipe = get_object_or_404(Recipe, slug=slug)
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    # Ensure the comment belongs to the logged-in user
+    if comment.baker != request.user.baker:
+        messages.add_message(request, messages.ERROR, 'You are not authorized to edit this comment.')
+        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+
+    if request.method == "POST":
         comment_form = CommentForm(data=request.POST, instance=comment)
 
-        if comment_form.is_valid() and comment.baker == request.user.baker:
+        if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.recipe = recipe
-            comment.approved = False
+            comment.approved = False  # Mark as unapproved after editing
             comment.save()
-            messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
-            messages.add_message(
-                request, messages.ERROR, 
-                'Error updating comment!'
-            )
-            messages.add_message(request, messages.ERROR, 'Error updating comment!')
+            messages.add_message(request, messages.SUCCESS, 'Comment updated successfully!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating comment.')
 
-    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+    return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
 def comment_delete(request, slug, comment_id):
@@ -111,11 +122,12 @@ def comment_delete(request, slug, comment_id):
     recipe = get_object_or_404(queryset, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_id)
     if comment.baker == request.user.baker:
+        comment.approved = False
         comment.delete()
         messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
     else:
         messages.add_message(request, messages.ERROR, 'Error deleting comment!')
-    return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+    return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
 def index(request):

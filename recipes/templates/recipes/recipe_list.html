@@ -7,14 +7,19 @@
     <div class="row">
         {% for recipe in object_list %}
         <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            <div class="card ">
+                <img src="{{ recipe.image.url }}" class="card-img-top recipe-image" alt="{{ recipe.title }}">
                 <div class="card-body recipe-card">
                     <h5 class="card-title">{{ recipe.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">By {{ recipe.baker }}</h6>
-                    <p class="card-text">Time required: {{ recipe.time_required | safe }}</p>
-                    <p class="card-text">{{ recipe.excerpt | safe }}</p>
-                    <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link">View Recipe</a>
+                    <!-- <h6 class="card-subtitle mb-2 text-muted">By {{ recipe.baker }}</h6> -->
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item card-subtitle mb-2 text-muted">By {{ recipe.baker }}</li>
+                        <li class="list-group-item">Time required: {{ recipe.time_required | safe }}</li>
+                        <li class="list-group-item">{{ recipe.excerpt | safe }}</li>
+                      </ul>
+                    <!-- <p class="card-text">Time required: {{ recipe.time_required | safe }}</p>
+                    <p class="card-text">{{ recipe.excerpt | safe }}</p> -->
+                    <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary text-center">View Recipe</a>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Posted on {{ recipe.created_on }}</small>
