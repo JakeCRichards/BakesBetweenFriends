@@ -12,6 +12,7 @@ from .models import Recipe, Comment, Like, Category, Baker
 from .forms import RecipeForm, CommentForm, ProfileForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -32,17 +33,37 @@ class RecipeCreateView(generic.CreateView):
     model = Recipe
     template_name = 'recipes/recipe_form.html'
     form_class = RecipeForm
-    success_url = '/'
-
+    
     def form_valid(self, form):
         form.instance.baker = self.request.user.baker
         form.instance.slug = slugify(form.instance.title)
         # Add a message saying that the recipe has been submitted for approval
         messages.add_message(
             self.request, messages.SUCCESS,
-            'Recipe submitted and awaiting approval'
+            f"{self.object.title} Recipe submitted and awaiting approval"
         )
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
+
+
+class RecipeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Recipe
+    template_name = 'recipes/recipe_form.html'
+    form_class = RecipeForm
+
+    def form_valid(self, form):
+        form.instance.is_published = False
+        # Add a message saying that the recipe has been updated and is awaiting approval
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            f"{self.object.title} Recipe updated and awaiting approval"
+        )
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
 
 
 def recipe_detail(request, slug):
