@@ -32,14 +32,14 @@
     <link rel="manifest" href="{% static '/assets/images/favicons/site.webmanifest' %}">
 </head>
 
-<body class="d-flex flex-column h-100 main-bg">
+<body class="d-flex flex-column main-bg min-vh-100">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light nav fixed-top" aria-label="Main Navigation">
+    <nav class="navbar navbar-expand-lg navbar-light nav sticky-top" aria-label="Main Navigation">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'recipes:home' %}"><img src="{% static '/assets/images/logo.png' %}"
                     alt="Bakes Between Friends logo" class="logo">
-                <span class="brand">Bakes Between Friends</span></a>
+                <span class="brand d-none d-sm-inline">Bakes Between Friends</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -54,15 +54,14 @@
                         <a class="nav-link" href="{% url 'recipes:recipes' %}">Recipes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'recipes:categories' %}">Recipes by Category</a>
+                        <a class="nav-link" href="{% url 'recipes:categories' %}">Recipe Categories</a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'recipes:recipe_create' %}">Share Recipe</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'recipes:baker_profile'  username=request.user.username %}">See
-                            Your Profile</a>
+                        <a class="nav-link" href="{% url 'recipes:baker_profile'  username=request.user.username %}">View Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
@@ -79,8 +78,12 @@
                     </li>
                     {% endif %}
                 </ul>
-                <span class="navbar-text text-muted">
-                    Share your favourite recipes with friends
+                <span class="text-muted">
+                    {% if user.is_authenticated %}
+        Logged in as {{ user.baker }}
+        {% else %}
+        You are not logged in
+        {% endif %}
                 </span>
             </div>
         </div>
@@ -104,11 +107,7 @@
 
     <!-- Log in confirmation -->
     <main class="flex-shrink-0 main-bg" id="main-content">
-        {% if user.is_authenticated %}
-        <p class="text-end m-3">You are logged in as {{ user.baker }}</p>
-        {% else %}
-        <p class="text-end m-3">You are not logged in</p>
-        {% endif %}
+        
 
         <!-- Main Content -->
         {% block content %}

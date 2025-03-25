@@ -3,6 +3,11 @@
 {% block content %}
 
 <div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Recipe Categories</h1>
+            <p class="lead">Browse our collection of recipes by category.</p>
+        </div>
     {% for category in object_list %}
     <div class="category">
         <h3>{{ category.tag_name }}</h3>

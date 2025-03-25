@@ -5,8 +5,12 @@
 
 <div class="container mt-4">
     <div class="row">
+        <div class="col-12">
+            <h1 class="text-center">All Recipes</h1>
+        </div>
+    <div class="row">
         {% for recipe in object_list %}
-        <div class="col-md-6 col-lg-4 mb-4">
+        <div class="col-md-6 col-xl-4 mb-4 d-flex align-items-stretch">
             <div class="card ">
                 <img src="{{ recipe.image.url }}" class="card-img-top recipe-image" alt="{{ recipe.title }}">
                 <div class="card-body recipe-card">
@@ -16,13 +20,15 @@
                         <li class="list-group-item card-subtitle mb-2 text-muted">By <a href="{% url 'recipes:baker_profile'  recipe.baker.user %}">{{ recipe.baker }}</a></li>
                         <li class="list-group-item">Time required: {{ recipe.time_required | safe }}</li>
                         <li class="list-group-item recipe-excerpt">{{ recipe.excerpt | safe }}</li>
-                      </ul>
+                      
                       <li class="list-group-item">
                       
                       <p class="text-center mt-3">Number of comments: <i class="far fa-comments"></i> {{ recipe.comment_count }}</p> 
                       <p class="text-center">Number of likes: <i class="far fa-thumbs-up"></i> {{ recipe.likes.count }}</p></li>
+                      </ul>
                       <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary">View Recipe</a></span>
-                </div>
+                
+            </div>
                 <div class="card-footer">
                     <small class="text-muted">Posted on {{ recipe.created_on }}</small>
                 </div>

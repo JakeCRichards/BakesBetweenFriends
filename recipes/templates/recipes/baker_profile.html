@@ -11,13 +11,13 @@
         <a role="button" class="btn btn-primary" href="{% url 'recipes:edit_baker_profile' username=baker.user.username %}">Edit Profile</a>
         {% endif %}
         </div>
-        <div class="col-7 baker-bio">
+        <div class="col-4 baker-pic">
+            <img src="{{ baker.profile_pic.url }}" class="img-fluid baker-pic" alt="{{ baker.user.username }}">
+        </div>
+        <div class="col-12 col-md-7 baker-bio mt-3">
             <h3>A bit about Baker {{ baker.user.username }}</h3>
         <p>{{ baker.bio }}</p>
             <p>I would call myself a {{ baker.get_user_type_display }}</p>
-        </div>
-        <div class="col-4 baker-pic">
-            <img src="{{ baker.profile_pic.url }}" class="scale recipe-image" alt="{{ baker.user.username }}">
         </div>
         <div class="col-12 mt-3 recipe-list">
             <h3>Recipes by Baker {{ baker.user.username }}</h3>
