@@ -1,9 +1,24 @@
 # 🥖 Bakes Between Friends
 
-## 📖 About the Project  
+## Table of Contents
+
+- [About the Project](#about-the-project)
+- [Initial Plan](#initial-plan)
+- [Description](#description)
+- [Agile and User Stories](#agile-and-user-stories)
+- [Wireframes](#wireframes)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Credits](#credits)
+
+
+## About the Project  
 **Bakes Between Friends** is a community-driven platform where users can share, discover, and interact with recipes. Inspired by *Jake’s Bakes*, this project expands the love of baking and cooking into an interactive experience where anyone can contribute their favourite recipes.  
 
-## 🎯 Project Intentions  
+## Initial Plan
+### Project Intentions
 This project aims to:  
 - Create a user-friendly platform for sharing and discovering recipes.  
 - Implement full CRUD functionality (Create, Read, Update, Delete) for recipes.  
@@ -11,27 +26,44 @@ This project aims to:
 - Provide an intuitive search feature to help users find recipes based on ingredients or keywords.  
 - Offer a responsive and accessible design for seamless use on mobile and desktop.  
 
-## 🔧 Features (Planned)  
+### Features (Planned)
 - User authentication (Sign Up, Login, Logout)  
 - Recipe submission with title, ingredients, instructions, and images  
 - Ability to edit and delete user-owned recipes  
 - Search and filter functionality for recipes  
 - Like and comment system for community engagement  
 
-## 🚀 Tech Stack  
+### Tech Stack  
 - **Frontend:** HTML, CSS, JavaScript (with a Bootstrap framework)  
 - **Backend:** Python 
 - **Database:** PostgreSQL
 - **Hosting:** Heroku  
 
-## 🎨 User Experience Design  
+### User Experience Design  
 The design process focuses on creating an intuitive and visually appealing interface. Key considerations include:  
 - **User Personas:** Identifying target users such as home bakers, professional chefs, and food enthusiasts.  
 - **Wireframes:** Initial sketches and prototypes to map out the layout and functionality.  
 - **Accessibility:** Ensuring the platform is usable for individuals with disabilities by adhering to WCAG guidelines.  
 - **Responsiveness:** Designing for seamless use across devices, including mobile, tablet, and desktop.
 
-## 🌟 Features  
+## Description
+
+
+## Agile and User Stories
+The project follows Agile methodologies to ensure iterative development and continuous improvement.   
+- **Kanban (Project) Board:** In line with Agile methodology, I wrote user stories in the planning and development of our website. The full details of these can be found on our project board.
+
+![User Stories Project Board](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Project-board.png)
+
+- **Daily Standups and Standdowns:** Regular updates to report on progress  
+
+
+## Wireframes
+Before starting the project, a couple of basic wireframes were created to visualise the final product. Both mobile and desktop wireframes were developed.
+
+
+
+## Features 
 The platform includes the following features:  
 - **Authentication:** Secure user registration, login, and logout.  
 - **Recipe Management:** Full CRUD functionality for recipes.  
@@ -39,13 +71,10 @@ The platform includes the following features:
 - **Rich Text Editor:** Use of Django Summernote for formatting recipe ingredients and instructions.
 - **Beginning of search:** Use of Categories to provide a simple search functionality with potential for more  
 
-## 📋 Agile  
-The project follows Agile methodologies to ensure iterative development and continuous improvement.   
-- **Kanban (Project) Board:** Tasks are tracked using a Kanban board for transparency.  
-- **Daily Standups and Standdowns:** Regular updates to report on progress  
 
+## Technologies Used
 
-## 🧪 Testing  
+## Testing  
 Testing is conducted to ensure the platform is robust and user-friendly.  
 | **Validator**       | **Comments**                                                                 | **Screenshot**       |
 |----------------------|-----------------------------------------------------------------------------|----------------------|
@@ -59,13 +88,15 @@ Testing is conducted to ensure the platform is robust and user-friendly.
 - **User story evaluation**  
 - **Automated Testing:** I did not carry out automated testing
 
-## 🚀 Deployment  
+## Deployment  
 The project is deployed using the following steps:  
-1. **Hosting Platform:** The application is hosted on [Heroku] (TBD).  
+1. **Hosting Platform:** The application is hosted on [Heroku].  
 2. **Version Control:** Code is managed using Git and GitHub.  
 
+The live link can be found here: [Bakes Between Friends](https://bakes-between-friends-a9965fdf43a6.herokuapp.com/)
+The GitHub Repository can be found here: 
 
-## 🙌 Credits  
+## Credits  
 Special thanks to:  
 - **Code Institute:** For providing the foundational knowledge and resources.  
 - **Django Documentation:** For guidance on implementing features.  
