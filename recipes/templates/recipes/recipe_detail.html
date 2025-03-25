@@ -121,8 +121,8 @@
           </p>
           {% if user.is_authenticated and comment.baker == request.user.baker %}
           <a role="button" href="{% url 'recipes:comment_edit' slug=recipe.slug comment_id=comment.id %}#comments"
-            class="btn btn-edit btn-sm btn-warning" comment_id="{{ comment.id }}">Edit</a>
-          <button type="button" class="btn btn-delete btn-sm btn-danger" comment_id="{{ comment.id }}">Delete</a>
+            class="btn btn-edit btn-sm btn-warning" data-comment-id="{{ comment.id }}">Edit</a>
+          <button type="button" class="btn btn-delete btn-sm btn-danger" data-comment-id="{{ comment.id }}">Delete</button>
             {% endif %}
         </div>
         {% endfor %}
