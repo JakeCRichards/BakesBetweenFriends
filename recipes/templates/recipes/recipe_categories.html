@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    {% for category in object_list %}
+    <div class="category">
+        <h3>{{ category.tag_name }}</h3>
+        <ul>
+            {% for recipe in category.tags.all %}
+            <li><a href="{% url 'recipes:recipe_detail' recipe.slug %}">{{ recipe.title }}</a></li>
+            {% empty %}
+            <li>No recipes available in this category.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+{% endblock %}

@@ -6,7 +6,9 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import redirect
-from .models import Recipe, Comment, Like
+from django.db import models
+from django.db.models import Prefetch
+from .models import Recipe, Comment, Like, Category
 from .forms import RecipeForm, CommentForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
@@ -15,9 +17,15 @@ from django.contrib.auth.decorators import login_required
 
 
 class RecipeListView(generic.ListView):
-    queryset = Recipe.objects.filter(is_published=True)
     template_name = 'recipes/recipe_list.html'
     paginate_by = 6
+
+    def get_queryset(self):
+        queryset = Recipe.objects.filter(is_published=True).annotate(
+            comment_count=models.Count('comments', filter=models.Q(
+                comments__approved=True))).order_by(
+                    '-created_on')
+        return queryset
 
 
 class RecipeCreateView(generic.CreateView):
@@ -40,11 +48,12 @@ class RecipeCreateView(generic.CreateView):
 def recipe_detail(request, slug):
     if request.user.is_superuser:
         recipe = get_object_or_404(Recipe, slug=slug)
+        comment_count = recipe.comments.all().count()
     else:
         recipe = get_object_or_404(Recipe, slug=slug, is_published=1)
+        comment_count = recipe.comments.filter(approved=True).count()
     liked_bakers = [like.baker for like in recipe.likes.all()]
     comments = recipe.comments.all().order_by("-created_on")
-    comment_count = recipe.comments.filter(approved=True).count()
     comment_form = CommentForm()
 
     if request.method == "POST":
@@ -89,7 +98,7 @@ def like(request, slug):
         if not created:
             like.delete()
             messages.success(request,
-            "You have removed your like from this recipe!")
+                             "You have removed your like from this recipe!")
         return redirect("recipes:recipe_detail", slug=slug)
     else:
         return HttpResponseBadRequest("Invalid request method.")
@@ -112,9 +121,11 @@ def comment_edit(request, slug, comment_id):
             comment.approved = False
             comment.save()
             messages.success(request, "Comment Updated!")
-            return HttpResponseRedirect(reverse("recipes:recipe_detail", args=[slug]))
+            return HttpResponseRedirect(reverse("recipes:recipe_detail",
+                                                args=[slug]))
         else:
-            messages.error(request, "Error updating comment. Please check your input.")
+            messages.error(request,
+                           "Error updating comment. Please check your input.")
             return render(
                 request,
                 "recipes/recipe_detail.html",
@@ -155,10 +166,21 @@ def comment_delete(request, slug, comment_id):
         comment.delete()
         messages.add_message(request, messages.SUCCESS, "Comment Deleted!")
     else:
-        messages.add_message(request, messages.ERROR, "Error deleting comment!")
+        messages.add_message(request, messages.ERROR,
+                             "Error deleting comment!")
     return HttpResponseRedirect(reverse("recipes:recipe_detail", args=[slug]))
-
 
 
 def index(request):
     return render(request, 'recipes/index.html')
+
+
+class RecipeCategoryListView(generic.ListView):
+    model = Recipe
+    template_name = 'recipes/recipe_categories.html'
+    # create a view that lists all the categories and the recipes in each category as links 
+
+    def get_queryset(self):
+        return Category.objects.prefetch_related(
+            Prefetch('tags', queryset=Recipe.objects.filter(is_published=True))
+        )

@@ -51,6 +51,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'recipes:recipes' %}">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'recipes:categories' %}">Recipes by Category</a>
+                    </li>
                         {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'recipes:recipe_create' %}">Share Recipe</a>

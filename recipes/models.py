@@ -48,7 +48,7 @@ class Category(models.Model):
         ALLERGY = 'allergy', 'Allergy'
         CUISINE = 'cuisine', 'Cuisine'
     tag_name = models.CharField(max_length=50, unique=True)
-    recipes = models.ManyToManyField(Recipe, blank=True)
+    # recipes = models.ManyToManyField(Recipe, blank=True)
     tag_type = models.CharField(max_length=50, choices=TagTypes.choices)
 
     class Meta:
