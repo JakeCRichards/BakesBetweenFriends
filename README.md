@@ -65,6 +65,12 @@ Before starting the project, a couple of basic wireframes were created to visual
 
 ## Features 
 The platform includes the following features:  
+**Responsive Design** 
+The website is responsive and works on various devices, including desktops, tablets, and smartphones. This ensures that users have a consistent and enjoyable experience regardless of the device they are using. The responsive design adapts to different screen sizes and orientations, providing optimal usability and accessibility.
+
+![Homepage Responsiveness](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Responsive-homepage.png)
+![Recipes Responsiveness](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Responsive-recipes.png)
+
 - **Authentication:** Secure user registration, login, and logout.  
 - **Recipe Management:** Full CRUD functionality for recipes.  
 - **Community Engagement:** Like and comment on recipes.  
@@ -100,7 +106,6 @@ The GitHub Repository can be found here:
 Special thanks to:  
 - **Code Institute:** For providing the foundational knowledge and resources.  
 - **Django Documentation:** For guidance on implementing features.  
-
 - **Open Source Libraries:** 
 
 

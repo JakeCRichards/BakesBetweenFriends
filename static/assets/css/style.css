@@ -37,6 +37,22 @@ body {
     padding: 20px;
 }
 
+/* Buttons */
+
+.btn-signup {
+    padding: 10px 20px;
+    background-color: #aa9581;
+    color: #3a2620;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.btn-signup:hover {
+    background-color: #e5533d;
+}
+
+
 /* Styles for the recipe cards */
 .recipe-card {
     background-color: #fff;
@@ -97,3 +113,10 @@ body {
     min-height: 10em;
 }
 
+#recipe-image-main {
+    max-height: 30vh;
+    object-fit: cover;
+    border: 3px solid #000000;
+    margin: auto;
+    
+}

@@ -1,72 +1,73 @@
-
 {% extends 'base.html' %} {% block content %}
 {% load static %}
 {% load crispy_forms_tags %}
 
 <div class="masthead">
-    <div class="container-fluid">
-        <div class="row g-0">
-            <div class="col-12 masthead-text">
-                <!-- Post title goes in these h1 tags -->
-                <h1 class="post-title">{{ recipe.title }}</h1>
-                {% if request.user.is_superuser or recipe.baker == request.user.baker %}
-                <a role="button" href="{% url 'recipes:recipe_edit' slug=recipe.slug %}"
-                    class="btn btn-primary">Edit Recipe</a>
-                    {% if recipe.is_published %}
-                    <form method="POST" action="{% url 'recipes:recipe_unpublish' slug=recipe.slug %}">
-                        {% csrf_token %}
-                        <button id="unpublish-button" type="submit" class="btn btn-danger">Unpublish Recipe</button></form>
-                    {% else %}
-                    <button class="btn btn-danger" disabled>Unpublished</button>  
-                    {% endif %}  
-                    {% if request.user.is_superuser and not recipe.is_published %}
-                    <form method="POST" action="{% url 'recipes:recipe_publish' slug=recipe.slug %}">
-                        {% csrf_token %}
-                        <button id="publish-button" type="submit" class="btn btn-success">Publish Recipe</button></form>
-                    {% endif %}
+  <div class="container text-center">
+    <div class="row g-0 align-items-center">
+      <div class="col-6 masthead-text">
+        <!-- Post title goes in these h1 tags -->
+        <h1 class="post-title">{{ recipe.title }}</h1>
+        {% if request.user.is_superuser or recipe.baker == request.user.baker %}
+        <a role="button" href="{% url 'recipes:recipe_edit' slug=recipe.slug %}" class="btn btn-primary">Edit Recipe</a>
+        {% if recipe.is_published %}
+        <form method="POST" action="{% url 'recipes:recipe_unpublish' slug=recipe.slug %}">
+          {% csrf_token %}
+          <button id="unpublish-button" type="submit" class="btn btn-danger">Unpublish Recipe</button>
+        </form>
+        {% else %}
+        <button class="btn btn-danger" disabled>Unpublished</button>
+        {% endif %}
+        {% if request.user.is_superuser and not recipe.is_published %}
+        <form method="POST" action="{% url 'recipes:recipe_publish' slug=recipe.slug %}">
+          {% csrf_token %}
+          <button id="publish-button" type="submit" class="btn btn-success">Publish Recipe</button>
+        </form>
+        {% endif %}
 
-                {% endif %}
-                <!-- Post author goes before the | the post's created date goes after -->
-                <p class="post-subtitle"><a href="{% url 'recipes:baker_profile'  recipe.baker.user %}">{{ recipe.baker }}</a> | {{ recipe.created_on }}</p>
-                <p class="post-subtitle"><a href="{% url 'recipes:categories' %}">Categories</a>: 
-                    {% for category in recipe.categories.all %}
-                        {{ category.tag_name }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        No categories assigned.
-                    {% endfor %}
-                </p>
-            </div>
-            <div class="col-6 justify-content-center">
-                <img src="{{ recipe.image.url }}" class="scale recipe-image" alt="{{ recipe.title }}">
-            </div>
-        </div>
+        {% endif %}
+        <!-- Post author goes before the | the post's created date goes after -->
+        <p class="post-subtitle"><a href="{% url 'recipes:baker_profile'  recipe.baker.user %}">{{ recipe.baker }}</a> |
+          {{ recipe.created_on }}</p>
+        <p class="post-subtitle"><a href="{% url 'recipes:categories' %}">Categories</a>:
+          {% for category in recipe.categories.all %}
+          {{ category.tag_name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+          No categories assigned.
+          {% endfor %}
+        </p>
+      </div>
+      <div class="col-6 text-center">
+        <img src="{{ recipe.image.url }}" class="recipe-image-main" id="recipe-image-main" alt="{{ recipe.title }}">
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 card mb-4 mt-3">
-            <div class="card-body">
-                <h2>Ingredients List</h2>
-                <!-- The ingredients content goes inside the card-text. -->
-                <!-- Use the | safe filter inside the template tags -->
-                <p class="card-text">
-                    {{ recipe.ingredients | safe }}
-                </p>
-            </div>
-        </div>
-        <div class="col-12 card mb-4 mt-3">
-            <div class="card-body">
-                <h2>Instructions</h2>
-                <!-- The instructions content goes inside the card-text. -->
-                <!-- Use the | safe filter inside the template tags -->
-                <p class="card-text">
-                    {{ recipe.instructions | safe }}
-                </p>
-            </div>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 card mb-4 mt-3">
+      <div class="card-body">
+        <h2>Ingredients List</h2>
+        <!-- The ingredients content goes inside the card-text. -->
+        <!-- Use the | safe filter inside the template tags -->
+        <p class="card-text">
+          {{ recipe.ingredients | safe }}
+        </p>
+      </div>
     </div>
-    <!-- Displaying count of comments -->
+    <div class="col-12 card mb-4 mt-3">
+      <div class="card-body">
+        <h2>Instructions</h2>
+        <!-- The instructions content goes inside the card-text. -->
+        <!-- Use the | safe filter inside the template tags -->
+        <p class="card-text">
+          {{ recipe.instructions | safe }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Displaying count of comments -->
   <div class="row">
     <div class="col-12">
       <strong class="text-secondary">
@@ -78,18 +79,18 @@
       <hr>
     </div>
     <form method="POST" action="{% url 'recipes:add_remove_like' slug=recipe.slug %}">
-        {% csrf_token %}
-        <button id="likeButton" type="submit" class="btn btn-primary">
-          {% if request.user.baker in liked_bakers %}
-          Remove Like for this recipe
-          <i class="far fa-icon-remove"></i>
-          {% else %}
-          Like this recipe
-          <i class="far fa-thumbs-up"></i>
-          {% endif %}
-        </button>
-      </form>
-  
+      {% csrf_token %}
+      <button id="likeButton" type="submit" class="btn btn-primary">
+        {% if request.user.baker in liked_bakers %}
+        Remove Like for this recipe
+        <i class="far fa-icon-remove"></i>
+        {% else %}
+        Like this recipe
+        <i class="far fa-thumbs-up"></i>
+        {% endif %}
+      </button>
+    </form>
+
   </div>
   <!-- Displaying Comments -->
   <div class="row" id="comments">
@@ -121,9 +122,8 @@
           {% if user.is_authenticated and comment.baker == request.user.baker %}
           <a role="button" href="{% url 'recipes:comment_edit' slug=recipe.slug comment_id=comment.id %}#comments"
             class="btn btn-edit btn-sm btn-warning" comment_id="{{ comment.id }}">Edit</a>
-          <button type="button" 
-            class="btn btn-delete btn-sm btn-danger" comment_id="{{ comment.id }}">Delete</a>
-          {% endif %}
+          <button type="button" class="btn btn-delete btn-sm btn-danger" comment_id="{{ comment.id }}">Delete</a>
+            {% endif %}
         </div>
         {% endfor %}
         <!-- Our for loop ends here -->
@@ -131,47 +131,41 @@
     </div>
     <!-- Creating New Comments -->
     <div class="col-md-4 card mb-4 mt-3">
-        <div class="card-body">
-          {% if user.is_authenticated %}
-          <h3>Leave a comment:</h3>
-          <p>Posting as: {{ request.user.baker }}</p>
-          <form id="commentForm" method="post"
-            style="margin-top: 1.3em;">
-            {{ comment_form | crispy }}
-            {% csrf_token %}
-            <button id="submitButton" type="submit"
-              class="btn btn-signup btn-lg">Submit</button>
-              {% if edit_mode %}
-              <a href="{% url 'recipes:recipe_detail' slug=recipe.slug %}#comments"
-                class="btn btn-secondary btn-lg">Cancel</a>
-              {% endif %}
-          </form>
-          {% else %}
-          <p><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>
+      <div class="card-body">
+        {% if user.is_authenticated %}
+        <h3>Leave a comment:</h3>
+        <p>Posting as: {{ request.user.baker }}</p>
+        <form id="commentForm" method="post" style="margin-top: 1.3em;">
+          {{ comment_form | crispy }}
+          {% csrf_token %}
+          <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+          {% if edit_mode %}
+          <a href="{% url 'recipes:recipe_detail' slug=recipe.slug %}#comments"
+            class="btn btn-secondary btn-lg">Cancel</a>
           {% endif %}
-        </div>
+        </form>
+        {% else %}
+        <p><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>
+        {% endif %}
       </div>
+    </div>
   </div>
 </div>
 
 <!-- Delete confirmation modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1"
-  aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"
-          id="deleteModalLabel">Delete comment?</h5>
-        <button type="button" class="btn-close"
-          data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="deleteModalLabel">Delete comment?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Are you sure you want to delete your comment?
         This action cannot be undone.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <a id="deleteConfirm" href="" class="btn
           btn-danger">Delete</a>
       </div>
