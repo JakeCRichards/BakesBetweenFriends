@@ -26,7 +26,7 @@
                       <p class="text-center mt-3">Number of comments: <i class="far fa-comments"></i> {{ recipe.comment_count }}</p> 
                       <p class="text-center">Number of likes: <i class="far fa-thumbs-up"></i> {{ recipe.likes.count }}</p></li>
                       </ul>
-                      <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary">View Recipe</a></span>
+                      <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary">View Recipe</a>
                 
             </div>
                 <div class="card-footer">
@@ -36,6 +36,7 @@
         </div>
         {% endfor %}
     </div>
+</div>
 
     <!-- Pagination -->
     <nav aria-label="Page navigation">
