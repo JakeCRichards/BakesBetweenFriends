@@ -120,3 +120,30 @@ body {
     margin: auto;
     
 }
+
+/* Profile Page */
+.profile-page {
+    
+    padding: 20px;
+}
+
+.baker-bio {
+    font-size: 1.2em;
+    margin: 0 0 20px;
+    border: 3px solid #000000;
+    padding: 10px;
+}
+
+.baker-pic {
+    max-height: 30vh;
+    object-fit: cover;
+    border: 3px solid #000000;
+    margin: auto;
+}
+
+.recipe-list {
+    border: 3px solid #000000;
+    border-radius: 10px;
+    margin: auto;
+    padding: 10px;
+}
