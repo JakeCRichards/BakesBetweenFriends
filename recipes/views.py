@@ -33,7 +33,7 @@ class RecipeCreateView(generic.CreateView):
     model = Recipe
     template_name = 'recipes/recipe_form.html'
     form_class = RecipeForm
-    
+
     def form_valid(self, form):
         form.instance.baker = self.request.user.baker
         form.instance.slug = slugify(form.instance.title)
@@ -43,26 +43,37 @@ class RecipeCreateView(generic.CreateView):
             f"{form.instance.title} Recipe submitted and awaiting approval"
         )
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
+        return reverse(
+            'recipes:recipe_detail',
+            kwargs={"slug": self.object.slug}
+        )
 
 
-class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+class RecipeUpdateView(
+    LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
+):
     model = Recipe
     template_name = 'recipes/recipe_form.html'
     form_class = RecipeForm
 
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.baker == self.get_object().baker
+        return (
+            self.request.user.is_superuser or
+            self.request.user.baker == self.get_object().baker
+        )
 
     def handle_no_permission(self):
-        messages.error(self.request, "You do not have permission to edit this recipe")
+        messages.error(
+            self.request, "You do not have permission to edit this recipe"
+        )
         return redirect("recipes:recipe_detail", slug=self.get_object().slug)
 
     def form_valid(self, form):
         form.instance.is_published = False
-        # Add a message saying that the recipe has been updated and is awaiting approval
+        # Add a message saying that the recipe has been updated
+        # and is awaiting approval
         messages.add_message(
             self.request, messages.SUCCESS,
             f"{self.object.title} Recipe updated and awaiting approval"
@@ -70,16 +81,24 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
+        return reverse(
+            'recipes:recipe_detail',
+            kwargs={"slug": self.object.slug}
+        )
 
 # superuser publish view to publish recipes
+
+
 class RecipePublishView(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_superuser
 
     def handle_no_permission(self, slug):
         recipe = get_object_or_404(Recipe, slug=slug)
-        messages.error(self.request, "You do not have permission to publish this recipe")
+        messages.error(
+            self.request,
+            "You do not have permission to publish this recipe"
+        )
         return redirect("recipes:recipe_detail", slug=recipe.slug)
 
     def post(self, request, slug):
@@ -90,14 +109,20 @@ class RecipePublishView(LoginRequiredMixin, UserPassesTestMixin, View):
         return redirect("recipes:recipe_detail", slug=recipe.slug)
 
 
-#psuedo delete view to unpublish recipes
+# psuedo delete view to unpublish recipes
 class RecipeUnpublishView(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.baker == self.get_object().baker
+        return (
+            self.request.user.is_superuser or
+            self.request.user.baker == self.get_object().baker
+        )
 
     def handle_no_permission(self, slug):
         recipe = get_object_or_404(Recipe, slug=slug)
-        messages.error(self.request, "You do not have permission to unpublish this recipe")
+        messages.error(
+            self.request,
+            "You do not have permission to unpublish this recipe"
+        )
         return redirect("recipes:recipe_detail", slug=recipe.slug)
 
     def post(self, request, slug):
@@ -105,22 +130,31 @@ class RecipeUnpublishView(LoginRequiredMixin, UserPassesTestMixin, View):
         recipe.is_published = False
         recipe.save()
         messages.success(request, "Recipe unpublished")
-        return redirect("recipes:recipe_detail", slug=recipe.slug) 
+        return redirect("recipes:recipe_detail", slug=recipe.slug)
 
 
 def recipe_detail(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
     comment_count = recipe.comments.all().count()
-    # if not request.user.is_superuser and request.user.baker != recipe.baker and not recipe.is_published:
-    if not (recipe.is_published or request.user.is_authenticated and (request.user.is_superuser or request.user.baker == recipe.baker)):
+    # if not request.user.is_superuser and request.user.baker != recipe.baker
+    # and not recipe.is_published:
+    if not (
+        recipe.is_published or
+        request.user.is_authenticated and (
+            request.user.is_superuser or
+            request.user.baker == recipe.baker
+        )
+    ):
         messages.error(request, "This recipe is not published yet.")
-        return redirect("recipes:recipes")    
+        return redirect("recipes:recipes")
 
     liked_bakers = [like.baker for like in recipe.likes.all()]
     if request.user.is_superuser:
         comments = recipe.comments.all().order_by("-created_on")
     else:
-        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+        comments = recipe.comments.filter(
+            approved=True
+        ).order_by("-created_on")
     comment_count = recipe.comments.filter(approved=True).count()
     comment_form = CommentForm()
 
@@ -247,7 +281,8 @@ def index(request):
 class RecipeCategoryListView(generic.ListView):
     model = Recipe
     template_name = 'recipes/recipe_categories.html'
-    # create a view that lists all the categories and the recipes in each category as links 
+    # create a view that lists all the categories
+    # and the recipes in each category as links
 
     def get_queryset(self):
         return Category.objects.prefetch_related(
@@ -260,15 +295,26 @@ class RecipeCategoryListView(generic.ListView):
 def baker_profile(request, username):
     baker = get_object_or_404(Baker, user__username=username)
     recipes = Recipe.objects.filter(baker=baker, is_published=True)
-    return render(request, 'recipes/baker_profile.html', {'baker': baker, 'recipes': recipes})
+    return render(
+        request,
+        'recipes/baker_profile.html',
+        {
+            'baker': baker,
+            'recipes': recipes,
+        }
+    )
 
 # Create edit of baker profile
+
 
 @login_required
 def edit_baker_profile(request, username):
     baker = get_object_or_404(Baker, user__username=username)
     if request.user != baker.user:
-        messages.error(request, "You do not have permission to edit this profile")
+        messages.error(
+            request,
+            "You do not have permission to edit this profile"
+        )
         return redirect("recipes:baker_profile", username=username)
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=baker)
@@ -280,4 +326,11 @@ def edit_baker_profile(request, username):
             messages.error(request, "Error updating profile")
     else:
         form = ProfileForm(instance=baker)
-    return render(request, "recipes/profile_form.html", {"form": form, "baker": baker})
+    return render(
+        request,
+        "recipes/profile_form.html",
+        {
+            "form": form,
+            "baker": baker
+        }
+    )

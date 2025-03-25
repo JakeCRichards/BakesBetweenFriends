@@ -48,7 +48,7 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'bio': SummernoteWidget(),
             'profile_pic': CloudinaryFileField().widget,
-        }    
+        }
         labels = {
             'bio': 'Biography (A little about yourself)',
             'profile_pic': 'Profile Picture',
