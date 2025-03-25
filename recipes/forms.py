@@ -1,4 +1,4 @@
-from .models import Recipe, Comment
+from .models import Recipe, Comment, Baker
 from django import forms
 from django_summernote.widgets import SummernoteWidget
 from cloudinary.forms import CloudinaryFileField
@@ -39,3 +39,18 @@ class CommentForm(forms.ModelForm):
 
 class LikeForm(forms.Form):
     pass
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Baker
+        fields = ['bio', 'profile_pic', 'user_type']
+        widgets = {
+            'bio': SummernoteWidget(),
+            'profile_pic': CloudinaryFileField().widget,
+        }    
+        labels = {
+            'bio': 'Biography (A little about yourself)',
+            'profile_pic': 'Profile Picture',
+            'user_type': 'User Type',
+        }

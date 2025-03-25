@@ -6,6 +6,9 @@ from .views import RecipeListView, RecipeCreateView, RecipeCategoryListView
 app_name = 'recipes'
 urlpatterns = [
     path('', views.index, name='home'),
+    path('baker/<str:username>/', views.baker_profile, name='baker_profile'),
+    path('baker/<str:username>/edit/', views.edit_baker_profile,
+         name='edit_baker_profile'),
     path('recipes/', RecipeListView.as_view(), name='recipes'),
     path('recipes/categories/',
          RecipeCategoryListView.as_view(), name='categories'),

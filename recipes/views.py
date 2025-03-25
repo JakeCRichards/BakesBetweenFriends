@@ -8,8 +8,8 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.db import models
 from django.db.models import Prefetch
-from .models import Recipe, Comment, Like, Category
-from .forms import RecipeForm, CommentForm
+from .models import Recipe, Comment, Like, Category, Baker
+from .forms import RecipeForm, CommentForm, ProfileForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 
@@ -185,3 +185,31 @@ class RecipeCategoryListView(generic.ListView):
         return Category.objects.prefetch_related(
             Prefetch('tags', queryset=Recipe.objects.filter(is_published=True))
         )
+
+# View to see the baker profile page
+
+
+def baker_profile(request, username):
+    baker = get_object_or_404(Baker, user__username=username)
+    recipes = Recipe.objects.filter(baker=baker, is_published=True)
+    return render(request, 'recipes/baker_profile.html', {'baker': baker, 'recipes': recipes})
+
+# Create edit of baker profile
+
+@login_required
+def edit_baker_profile(request, username):
+    baker = get_object_or_404(Baker, user__username=username)
+    if request.user != baker.user:
+        messages.error(request, "You do not have permission to edit this profile")
+        return redirect("recipes:baker_profile", username=username)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=baker)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect("recipes:baker_profile", username=username)
+        else:
+            messages.error(request, "Error updating profile")
+    else:
+        form = ProfileForm(instance=baker)
+    return render(request, "recipes/profile_form.html", {"form": form, "baker": baker})

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- page to view baker profile photo, name, bio, recipes and user type -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-8">
+            <h2>{{ baker.user.username }}</h2>
+            {% if request.user == baker.user %}
+        <a role="button" class="btn btn-primary" href="{% url 'recipes:edit_baker_profile' username=baker.user.username %}">Edit Profile</a>
+        {% endif %}
+        <p>{{ baker.bio }}</p>
+            <p>{{ baker.get_user_type_display }}</p>
+            <img src="{{ baker.profile_pic.url }}" class="scale recipe-image" alt="{{ baker.user.username }}">
+            <h3>Recipes by {{ baker.user.username }}</h3>
+            <ul>
+                {% for recipe in recipes %}
+                <li><a href="{% url 'recipes:recipe_detail' recipe.slug %}">{{ recipe.title }}</a></li>
+                {% empty %}
+                <li>No recipes available by this baker.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+    </div>
+
+
+
+{% endblock %}
