@@ -1,6 +1,13 @@
 from . import views
 from django.urls import path
-from .views import RecipeListView, RecipeCreateView, RecipeCategoryListView, RecipeUpdateView
+from .views import (
+    RecipeListView,
+    RecipeCreateView,
+    RecipeCategoryListView,
+    RecipeUpdateView,
+    RecipePublishView,
+    RecipeUnpublishView,
+)
 
 
 app_name = 'recipes'
@@ -14,7 +21,15 @@ urlpatterns = [
          RecipeCategoryListView.as_view(), name='categories'),
     path('recipes/create/', RecipeCreateView.as_view(), name='recipe_create'),
     path('recipes/<slug:slug>/', views.recipe_detail, name='recipe_detail'),
-    path('recipes/<slug:slug>/edit/', RecipeUpdateView.as_view(), name='recipe_edit'),
+    path(
+        'recipes/<slug:slug>/edit/',
+        RecipeUpdateView.as_view(),
+        name='recipe_edit',
+    ),
+    path('recipes/<slug:slug>/publish/',
+         RecipePublishView.as_view(), name='recipe_publish'),
+    path('recipes/<slug:slug>/unpublish/',
+         RecipeUnpublishView.as_view(), name='recipe_unpublish'),
     path('recipes/<slug:slug>/edit_comment/<int:comment_id>',
          views.comment_edit, name='comment_edit'),
     path('recipes/<slug:slug>/delete_comment/<int:comment_id>',

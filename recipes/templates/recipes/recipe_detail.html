@@ -9,6 +9,23 @@
             <div class="col-12 masthead-text">
                 <!-- Post title goes in these h1 tags -->
                 <h1 class="post-title">{{ recipe.title }}</h1>
+                {% if request.user.is_superuser or recipe.baker == request.user.baker %}
+                <a role="button" href="{% url 'recipes:recipe_edit' slug=recipe.slug %}"
+                    class="btn btn-primary">Edit Recipe</a>
+                    {% if recipe.is_published %}
+                    <form method="POST" action="{% url 'recipes:recipe_unpublish' slug=recipe.slug %}">
+                        {% csrf_token %}
+                        <button id="unpublish-button" type="submit" class="btn btn-danger">Unpublish Recipe</button></form>
+                    {% else %}
+                    <button class="btn btn-danger" disabled>Unpublished</button>  
+                    {% endif %}  
+                    {% if request.user.is_superuser and not recipe.is_published %}
+                    <form method="POST" action="{% url 'recipes:recipe_publish' slug=recipe.slug %}">
+                        {% csrf_token %}
+                        <button id="publish-button" type="submit" class="btn btn-success">Publish Recipe</button></form>
+                    {% endif %}
+
+                {% endif %}
                 <!-- Post author goes before the | the post's created date goes after -->
                 <p class="post-subtitle">{{ recipe.baker }} | {{ recipe.created_on }}</p>
             </div>

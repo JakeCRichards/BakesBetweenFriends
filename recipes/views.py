@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 
 # from django.views.generic.edit import *
 from django.contrib import messages
@@ -12,7 +12,7 @@ from .models import Recipe, Comment, Like, Category, Baker
 from .forms import RecipeForm, CommentForm, ProfileForm
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
 
@@ -40,7 +40,7 @@ class RecipeCreateView(generic.CreateView):
         # Add a message saying that the recipe has been submitted for approval
         messages.add_message(
             self.request, messages.SUCCESS,
-            f"{self.object.title} Recipe submitted and awaiting approval"
+            f"{form.instance.title} Recipe submitted and awaiting approval"
         )
         return super().form_valid(form)
     
@@ -48,10 +48,17 @@ class RecipeCreateView(generic.CreateView):
         return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
 
 
-class RecipeUpdateView(LoginRequiredMixin, generic.UpdateView):
+class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Recipe
     template_name = 'recipes/recipe_form.html'
     form_class = RecipeForm
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.baker == self.get_object().baker
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to edit this recipe")
+        return redirect("recipes:recipe_detail", slug=self.get_object().slug)
 
     def form_valid(self, form):
         form.instance.is_published = False
@@ -65,16 +72,56 @@ class RecipeUpdateView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse('recipes:recipe_detail', kwargs={"slug": self.object.slug})
 
+# superuser publish view to publish recipes
+class RecipePublishView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def handle_no_permission(self, slug):
+        recipe = get_object_or_404(Recipe, slug=slug)
+        messages.error(self.request, "You do not have permission to publish this recipe")
+        return redirect("recipes:recipe_detail", slug=recipe.slug)
+
+    def post(self, request, slug):
+        recipe = get_object_or_404(Recipe, slug=slug)
+        recipe.is_published = True
+        recipe.save()
+        messages.success(request, "Recipe published")
+        return redirect("recipes:recipe_detail", slug=recipe.slug)
+
+
+#psuedo delete view to unpublish recipes
+class RecipeUnpublishView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.baker == self.get_object().baker
+
+    def handle_no_permission(self, slug):
+        recipe = get_object_or_404(Recipe, slug=slug)
+        messages.error(self.request, "You do not have permission to unpublish this recipe")
+        return redirect("recipes:recipe_detail", slug=recipe.slug)
+
+    def post(self, request, slug):
+        recipe = get_object_or_404(Recipe, slug=slug)
+        recipe.is_published = False
+        recipe.save()
+        messages.success(request, "Recipe unpublished")
+        return redirect("recipes:recipe_detail", slug=recipe.slug) 
+
 
 def recipe_detail(request, slug):
-    if request.user.is_superuser:
-        recipe = get_object_or_404(Recipe, slug=slug)
-        comment_count = recipe.comments.all().count()
-    else:
-        recipe = get_object_or_404(Recipe, slug=slug, is_published=1)
-        comment_count = recipe.comments.filter(approved=True).count()
+    recipe = get_object_or_404(Recipe, slug=slug)
+    comment_count = recipe.comments.all().count()
+    # if not request.user.is_superuser and request.user.baker != recipe.baker and not recipe.is_published:
+    if not (recipe.is_published or request.user.is_authenticated and (request.user.is_superuser or request.user.baker == recipe.baker)):
+        messages.error(request, "This recipe is not published yet.")
+        return redirect("recipes:recipes")    
+
     liked_bakers = [like.baker for like in recipe.likes.all()]
-    comments = recipe.comments.all().order_by("-created_on")
+    if request.user.is_superuser:
+        comments = recipe.comments.all().order_by("-created_on")
+    else:
+        comments = recipe.comments.filter(approved=True).order_by("-created_on")
+    comment_count = recipe.comments.filter(approved=True).count()
     comment_form = CommentForm()
 
     if request.method == "POST":
