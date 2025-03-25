@@ -97,7 +97,7 @@
           {% if user.is_authenticated and comment.baker == request.user.baker %}
           <a role="button" href="{% url 'recipes:comment_edit' slug=recipe.slug comment_id=comment.id %}#comments"
             class="btn btn-edit btn-sm btn-warning" comment_id="{{ comment.id }}">Edit</a>
-          <a role="button" href="{% url 'recipes:comment_delete' slug=recipe.slug comment_id=comment.id %}#comments"
+          <button type="button" 
             class="btn btn-delete btn-sm btn-danger" comment_id="{{ comment.id }}">Delete</a>
           {% endif %}
         </div>
@@ -117,6 +117,10 @@
             {% csrf_token %}
             <button id="submitButton" type="submit"
               class="btn btn-signup btn-lg">Submit</button>
+              {% if edit_mode %}
+              <a href="{% url 'recipes:recipe_detail' slug=recipe.slug %}#comments"
+                class="btn btn-secondary btn-lg">Cancel</a>
+              {% endif %}
           </form>
           {% else %}
           <p><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>
@@ -144,7 +148,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary"
           data-bs-dismiss="modal">Close</button>
-        <a id="deleteConfirm" href="#" class="btn
+        <a id="deleteConfirm" href="" class="btn
           btn-danger">Delete</a>
       </div>
     </div>
@@ -154,5 +158,5 @@
 {% endblock content %}
 
 {% block extras %}
-<script src="{% static 'js/comments.js' %}"></script>
+<script src="{% static 'assets/js/comments.js' %}"></script>
 {% endblock %}

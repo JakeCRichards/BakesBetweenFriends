@@ -145,6 +145,7 @@ def comment_edit(request, slug, comment_id):
                 "comment_form": comment_form,
                 "recipe": recipe,
                 "comment": comment,
+                "edit_mode": True,
             },
         )
 

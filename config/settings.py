@@ -137,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ACCOUNT_EMAIL_REQUIRED = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 # Internationalization
