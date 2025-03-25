@@ -4,13 +4,22 @@
 
 - [About the Project](#about-the-project)
 - [Initial Plan](#initial-plan)
+    - [Project Intentions](#project-intentions)
+    - [Features (Planned)](#features-planned)
+    - [Tech Stack](#tech-stack)
+    - [User Experience Plan](#user-experience-plan)
 - [Description](#description)
-- [Agile and User Stories](#agile-and-user-stories)
+- [Agile and User Experience Design](#agile-and-user-experience-design)
 - [Wireframes](#wireframes)
+- [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
+    - [Manual Testing](#manual-testing)
+    - [User Story Evaluation Summary](#user-story-evaluation-summary)
 - [Deployment](#deployment)
+- [Issues Faced](#issues-faced)
+- [Known Bugs](#known-bugs)
 - [Credits](#credits)
 
 
@@ -39,7 +48,7 @@ This project aims to:
 - **Database:** PostgreSQL
 - **Hosting:** Heroku  
 
-### User Experience Design  
+### User Experience Plan  
 The design process focuses on creating an intuitive and visually appealing interface. Key considerations include:  
 - **User Personas:** Identifying target users such as home bakers, professional chefs, and food enthusiasts.  
 - **Wireframes:** Initial sketches and prototypes to map out the layout and functionality.  
@@ -47,9 +56,15 @@ The design process focuses on creating an intuitive and visually appealing inter
 - **Responsiveness:** Designing for seamless use across devices, including mobile, tablet, and desktop.
 
 ## Description
+**Bakes Between Friends** is a collaborative recipe-sharing platform designed to bring together a community of baking and cooking enthusiasts. The project allows users to create, share, and discover recipes while fostering engagement through features like likes and comments. Built with a focus on user experience, the platform offers full CRUD functionality, responsive design, and accessibility compliance.
 
+The project was developed using a modern tech stack, including Django for the backend, PostgreSQL for the database, and Bootstrap for styling. It incorporates user authentication, a rich text editor for recipe formatting, and category-based search functionality. The platform is deployed on Heroku with continuous integration and version control via GitHub.
 
-## Agile and User Stories
+The development process followed Agile methodologies, utilizing user stories and wireframes to guide iterative improvements. Despite challenges, such as health-related delays, the project was completed with a focus on quality and functionality. Future updates aim to address known bugs and enhance features like search capabilities.
+
+**Bakes Between Friends** is more than just a recipe site—it's a community-driven space where users can connect over their shared love of baking and cooking.
+
+## Agile and User Experience Design
 The project follows Agile methodologies to ensure iterative development and continuous improvement.   
 - **Kanban (Project) Board:** In line with Agile methodology, I wrote user stories in the planning and development of our website. The full details of these can be found on our project board.
 
@@ -96,9 +111,17 @@ Nav Bar Changes
 ![Logged out Navbar](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Logged-out.png)
 ![Logged in Navbar](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Logged-in.png)
 
-- **Recipe Management:** Full CRUD functionality for recipes.  
-- **Community Engagement:** Like and comment on recipes.  
-- **Rich Text Editor:** Use of Django Summernote for formatting recipe ingredients and instructions.
+- **Recipe Management:** 
+Full CRUD functionality for recipes.  Use of Django Summernote for formatting recipe ingredients and instructions.
+
+Recipe Creation and Editting
+![Creation](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Recipe-creation.png)
+![CRUD](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Recipe-CRUD.png)
+
+- **Community Engagement:** Like and comment on recipes. 
+
+![Comment and Like](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/CommentsLikes.png)
+
 - **Beginning of search:** Use of Categories to provide a simple search functionality with potential for more  
 
 
@@ -125,6 +148,7 @@ Testing is conducted to ensure the platform is robust and user-friendly.
 | CSS Validator        | No errors found. Only 1 warning about imported CSS Librarys            | ![CSS Validator](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/CSS-validation.png)  |
 | Lighthouse Mobile           | Performance score: 84, Accessibility score: 98, Best Practices: 100.             | ![Lighthouse](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Lighthouse-mobile.png)     |
 | Lighthouse Desktop           | Performance score: 99, Accessibility score: 98, Best Practices: 100.             | ![Lighthouse](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Lighthouse-desktop.png)     |
+| WAVE Accessibility          | No errors found although some warnings             | ![Lighthouse](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Wave-check.png)     |
 | Python Validator     | No errors found using CI Python Linter.         | ![Python Validator](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Python-validation.png) |
 | Python In Terminal     | 1 error saying env not used, but it is and app fails without        | ![Terminal Screenshot](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Terminal-screenshot.png) |
 | JS Validator           | No obvious errors             | ![Lighthouse](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/JSHint.png)     |
