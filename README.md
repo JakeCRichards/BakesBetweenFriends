@@ -67,11 +67,26 @@ Before starting the project, a couple of basic wireframes were created to visual
 The platform includes the following features:  
 **Responsive Design** 
 The website is responsive and works on various devices, including desktops, tablets, and smartphones. This ensures that users have a consistent and enjoyable experience regardless of the device they are using. The responsive design adapts to different screen sizes and orientations, providing optimal usability and accessibility.
-
+Homepage
 ![Homepage Responsiveness](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Responsive-homepage.png)
+Recipes List
 ![Recipes Responsiveness](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Responsive-recipes.png)
+Detailed Recipe View
+![Detailed Recipes Responsiveness](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Responsive-recipe_detail.png)
 
-- **Authentication:** Secure user registration, login, and logout.  
+- **Authentication:** 
+Secure user registration, login, and logout. The navbar changes depending on logged in status
+
+Registration
+![Sign up page](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Sign-up.png)
+
+Log in
+![Sign in page](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Sign-in.png)
+
+Nav Bar Changes
+![Logged out Navbar](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Logged-out.png)
+![Logged in Navbar](https://github.com/JakeCRichards/BakesBetweenFriends/blob/main/static/assets/images/readme/Logged-in.png)
+
 - **Recipe Management:** Full CRUD functionality for recipes.  
 - **Community Engagement:** Like and comment on recipes.  
 - **Rich Text Editor:** Use of Django Summernote for formatting recipe ingredients and instructions.
