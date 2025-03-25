@@ -16,15 +16,12 @@ class RecipeForm(forms.ModelForm):
         }
         labels = {
             'title': 'Title (Your Recipe Name)',
-            'image': '\nImage (Make it look delicious)',
-            'ingredients': '\nIngredients (Be specific!)',
-            'instructions': '\nInstructions (Be detailed, use numbered steps)',
-            'time_required': '\nTime Required (e.g. 30 minutes)',
-            'categories': '\nCategories (Select all that apply)',
-            'excerpt': (
-                '\nBlurb (Short description of your recipe so others want to '
-                'read it)'
-            ),
+            'image': 'Image (Make it look delicious)',
+            'ingredients': 'Ingredients (Be specific!)',
+            'instructions': 'Instructions (Be detailed, use numbered steps)',
+            'time_required': 'Time Required (e.g. 30 minutes)',
+            'categories': 'Categories (Select all that apply)',
+            'excerpt': 'Blurb (Short description of your recipe)',
         }
 
 
