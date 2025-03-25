@@ -85,8 +85,9 @@
             </div>
         </div>
     </nav>
-    <!-- displaying Django messages -->
-    <div class="container">
+    <!-- displaying Django messages only if a message is present -->
+     {% if messages %}
+    <div class="container p-0">
         <div class="row">
             <div class="col-12">
                 {% for message in messages %}
@@ -99,14 +100,17 @@
             </div>
         </div>
     </div>
-    </div>
+    {% endif %}
 
+    <!-- Log in confirmation -->
     <main class="flex-shrink-0 main-bg" id="main-content">
         {% if user.is_authenticated %}
         <p class="text-end m-3">You are logged in as {{ user.baker }}</p>
         {% else %}
         <p class="text-end m-3">You are not logged in</p>
         {% endif %}
+
+        <!-- Main Content -->
         {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
