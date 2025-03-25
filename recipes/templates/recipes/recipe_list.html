@@ -10,16 +10,18 @@
             <div class="card ">
                 <img src="{{ recipe.image.url }}" class="card-img-top recipe-image" alt="{{ recipe.title }}">
                 <div class="card-body recipe-card">
-                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <h5 class="card-title text-center">{{ recipe.title }}</h5>
                     <!-- <h6 class="card-subtitle mb-2 text-muted">By {{ recipe.baker }}</h6> -->
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item card-subtitle mb-2 text-muted">By {{ recipe.baker }}</li>
+                        <li class="list-group-item card-subtitle mb-2 text-muted">By <a href="{% url 'recipes:baker_profile'  recipe.baker.user %}">{{ recipe.baker }}</a></li>
                         <li class="list-group-item">Time required: {{ recipe.time_required | safe }}</li>
-                        <li class="list-group-item">{{ recipe.excerpt | safe }}</li>
+                        <li class="list-group-item recipe-excerpt">{{ recipe.excerpt | safe }}</li>
                       </ul>
-                      <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary text-center">View Recipe</a>
-                      <p class="text-center">Number of comments: <i class="far fa-comments"></i> {{ recipe.comment_count }}</p> 
-                      <p>Number of likes: <i class="far fa-thumbs-up"></i> {{ recipe.likes.count }}</p>
+                      <li class="list-group-item">
+                      
+                      <p class="text-center mt-3">Number of comments: <i class="far fa-comments"></i> {{ recipe.comment_count }}</p> 
+                      <p class="text-center">Number of likes: <i class="far fa-thumbs-up"></i> {{ recipe.likes.count }}</p></li>
+                      <a href="{% url 'recipes:recipe_detail' recipe.slug %}" class="recipe-link btn btn-secondary">View Recipe</a></span>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Posted on {{ recipe.created_on }}</small>

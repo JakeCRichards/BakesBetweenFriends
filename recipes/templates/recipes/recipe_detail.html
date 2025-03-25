@@ -27,7 +27,14 @@
 
                 {% endif %}
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="post-subtitle">{{ recipe.baker }} | {{ recipe.created_on }}</p>
+                <p class="post-subtitle"><a href="{% url 'recipes:baker_profile'  recipe.baker.user %}">{{ recipe.baker }}</a> | {{ recipe.created_on }}</p>
+                <p class="post-subtitle"><a href="{% url 'recipes:categories' %}">Categories</a>: 
+                    {% for category in recipe.categories.all %}
+                        {{ category.tag_name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        No categories assigned.
+                    {% endfor %}
+                </p>
             </div>
             <div class="col-6 justify-content-center">
                 <img src="{{ recipe.image.url }}" class="scale recipe-image" alt="{{ recipe.title }}">

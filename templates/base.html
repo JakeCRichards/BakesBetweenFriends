@@ -10,6 +10,7 @@
 <head>
     <title>Bakes Between Friends</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A community website to share and explore baking recipes.">
 
     <!-- Google Fonts CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -34,7 +35,7 @@
 <body class="d-flex flex-column h-100 main-bg">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light nav sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light nav sticky-top" role="navigation" aria-label="Main Navigation">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'recipes:home' %}"><img src="{% static '/assets/images/logo.png' %}"
                     alt="Bakes Between Friends logo" class="logo">
@@ -55,12 +56,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'recipes:categories' %}">Recipes by Category</a>
                     </li>
-                        {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'recipes:recipe_create' %}">Share Recipe</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'recipes:baker_profile'  username=request.user.username %}">See Your Profile</a>
+                        <a class="nav-link" href="{% url 'recipes:baker_profile'  username=request.user.username %}">See
+                            Your Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
@@ -98,7 +100,7 @@
         </div>
     </div>
 
-    <main class="flex-shrink-0 main-bg">
+    <main class="flex-shrink-0 main-bg" id="main-content">
         {% if user.is_authenticated %}
         <p class="text-end m-3">You are logged in as {{ user.baker }}</p>
         {% else %}
@@ -114,10 +116,18 @@
     <footer class="footer mt-auto py-3 bg-dark text-light text-center">
         <p class="m-0">Made by Bakes Between Friends Team</p>
         <p class="m-0">Follow us:
-            <i class="fab fa-facebook-square ms-3"></i>
-            <i class="fab fa-twitter-square ms-3"></i>
-            <i class="fab fa-instagram-square ms-3"></i>
-            <i class="fab fa-youtube-square ms-3"></i>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener"
+                aria-label="Visit our Facebook page (opens in a new tab)">
+                <i class="fa-brands fa-facebook ms-3"></i></a>
+            <a href="https://www.X.com/" target="_blank" rel="noopener"
+                aria-label="Visit our X (formerally Twitter) page (opens in a new tab)">
+                <i class="fa-brands fa-x-twitter ms-3"></i></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener"
+                aria-label="Visit our Instagram page (opens in a new tab)">
+                <i class="fa-brands fa-instagram-square ms-3"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener"
+                aria-label="Visit our YouTube page (opens in a new tab)">
+                <i class="fa-brands fa-youtube-square ms-3"></i></a>
         </p>
         <p class="m-0">Copyright 2025</p>
     </footer>

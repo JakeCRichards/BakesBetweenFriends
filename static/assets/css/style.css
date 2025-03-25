@@ -70,17 +70,18 @@ body {
     margin: 0 0 20px;
 }
 
-.recipe-card-button {
+.recipe-link {
+    width: 100%;
     display: inline-block;
     padding: 10px 20px;
-    background-color: #ff6347;
-    color: #fff;
+    background-color: #aa9581;
+    color: #3a2620;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.2s;
 }
 
-.recipe-card-button:hover {
+.recipe-link:hover {
     background-color: #e5533d;
 }
 
@@ -90,3 +91,9 @@ body {
     object-fit: cover;
     border-bottom: 1px solid #ddd;
 }
+
+.recipe-excerpt {
+    font-style: italic;
+    min-height: 10em;
+}
+

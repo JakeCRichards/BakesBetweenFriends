@@ -3,27 +3,20 @@
 {% block content %}
 
 <!-- page to view baker profile photo, name, bio, recipes and user type -->
+{% if featured_recipe %}
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-8">
-            <h2>{{ baker.user.username }}</h2>
-            {% if request.user == baker.user %}
-        <a role="button" class="btn btn-primary" href="{% url 'recipes:edit_baker_profile' username=baker.user.username %}">Edit Profile</a>
-        {% endif %}
-        <p>{{ baker.bio }}</p>
-            <p>{{ baker.get_user_type_display }}</p>
-            <img src="{{ baker.profile_pic.url }}" class="scale recipe-image" alt="{{ baker.user.username }}">
-            <h3>Recipes by {{ baker.user.username }}</h3>
-            <ul>
-                {% for recipe in recipes %}
-                <li><a href="{% url 'recipes:recipe_detail' recipe.slug %}">{{ recipe.title }}</a></li>
-                {% empty %}
-                <li>No recipes available by this baker.</li>
-                {% endfor %}
-            </ul>
+    <div class="card mb-4">
+        <img src="{{ featured_recipe.image.url }}" class="card-img-top recipe-image" alt="{{ featured_recipe.title }}">
+        <div class="card-body text-center">
+            <h2 class="card-title">✨ Recipe of the Week ✨</h2>
+            <h4>{{ featured_recipe.title }}</h4>
+            <p class="text-muted">By <a href="{% url 'recipes:baker_profile' featured_recipe.baker.user %}">{{ featured_recipe.baker }}</a></p>
+            <p>{{ featured_recipe.excerpt }}</p>
+            <a href="{% url 'recipes:recipe_detail' featured_recipe.slug %}" class="btn btn-primary">View Recipe</a>
         </div>
-        
     </div>
+</div>
+{% endif %}
 
 
 
