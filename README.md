@@ -14,6 +14,7 @@
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
+- [Use of AI](#use-of-ai)
 - [Testing](#testing)
     - [Manual Testing](#manual-testing)
     - [User Story Evaluation Summary](#user-story-evaluation-summary)
@@ -138,6 +139,25 @@ Recipe Creation and Editting
 9. **Heroku** - The site is deployed on Heroku.
 10. **PostgreSQL** - The site uses a PostgreSQL database.
 11. **Cloudinary** - The site uses Cloudinary for image hosting.
+
+
+## Use of AI
+
+
+This project leverages AI technologies to enhance development and user experience, but only where absolutely necessary:
+1. **Code Assistance with GitHub Copilot**:
+- GitHub Copilot was utilised to assist in writing, reviewing, and optimising the code.
+- It provided intelligent code suggestions, reducing development time and improving code quality.
+- This was utilised via automatic suggestions and code reviews
+
+2. **AI-Generated Visual Assets**:
+- Header images for the project were generated using ChatGPT's image generation capabilities.
+- The favicon icon was also created using AI tools, ensuring a unique and visually appealing design.
+
+3. **Error-checking using AI**:
+- I utilised AI (ChatGPT and CoPilot) when struggling with UX on the profile page section of the website. Through using the AI as a discussion-based tool where I could bounce ideas and receive feedback on them, I was able to resolve the problem. This saved me time in the long run rather than just trial and error repeatedly. 
+
+By integrating AI tools into the development process, this project demonstrates the potential of AI in streamlining workflows and enhancing creativity.
 
 
 ## Testing  
